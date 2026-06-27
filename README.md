@@ -7,7 +7,7 @@ A single-page static marketing site for "BuildWorks Software," a custom software
 - **Home** — hero/landing content
 - **Services** — offerings overview
 - **Testimonials** — client feedback
-- **Contact** — client enquiry form (client-side validated)
+- **Contact** — client enquiry form (client-side validated, submitted via [formsubmit.co](https://formsubmit.co/))
 
 ## SEO
 
