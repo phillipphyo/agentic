@@ -558,6 +558,42 @@
     margin-bottom: var(--space-md);
   }
 
+  /* Balloon celebration effect, triggered on enquiry form success */
+  .balloon-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 9999;
+  }
+
+  .balloon {
+    position: absolute;
+    bottom: -120px;
+    width: 38px;
+    height: 48px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    opacity: 0.9;
+    animation: balloon-rise linear forwards;
+  }
+
+  .balloon::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    width: 1px;
+    height: 26px;
+    background: rgba(22, 33, 43, 0.35);
+    transform: translateX(-50%);
+  }
+
+  @keyframes balloon-rise {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.95; }
+    85% { opacity: 0.9; }
+    100% { transform: translateY(-115vh) translateX(var(--drift, 30px)) rotate(8deg); opacity: 0; }
+  }
+
   /* Footer */
   footer {
     background: var(--blueprint-deep);
@@ -824,7 +860,7 @@
       <p class="section-intro">Tell us what you're building. We'll get back to you within one business day with next steps.</p>
       <div class="work-order">
         <span class="work-order-label">Intake Form</span>
-        <div id="form-success" class="success-msg" role="status" hidden>Logged. We'll be in touch shortly.</div>
+        <div id="form-success" class="success-msg" role="status" hidden>Hooray, thank you for your submission, we will get back to you in 2 business days.</div>
         <form id="enquiry-form" novalidate>
           <div class="form-row">
             <label for="name">Name *</label>
@@ -838,7 +874,8 @@
           </div>
           <div class="form-row">
             <label for="phone">Phone</label>
-            <input type="tel" id="phone" name="phone">
+            <input type="tel" id="phone" name="phone" aria-describedby="phone-error">
+            <span class="error-msg" id="phone-error"></span>
           </div>
           <div class="form-row">
             <label for="service">Service Interested In</label>
@@ -928,6 +965,7 @@
     var form = document.getElementById('enquiry-form');
     var successMsg = document.getElementById('form-success');
     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    var phoneRegex = /^[0-9+()\-\s]{7,20}$/;
 
     function setError(field, errorEl, message) {
       field.classList.toggle('invalid', Boolean(message));
@@ -945,6 +983,7 @@
 
       var nameError = document.getElementById('name-error');
       var emailError = document.getElementById('email-error');
+      var phoneError = document.getElementById('phone-error');
       var messageError = document.getElementById('message-error');
 
       var firstInvalid = null;
@@ -968,6 +1007,14 @@
         firstInvalid = firstInvalid || emailField;
       } else {
         setError(emailField, emailError, '');
+      }
+
+      if (phoneField.value.trim() && !phoneRegex.test(phoneField.value.trim())) {
+        setError(phoneField, phoneError, 'Please enter a valid phone number.');
+        isValid = false;
+        firstInvalid = firstInvalid || phoneField;
+      } else {
+        setError(phoneField, phoneError, '');
       }
 
       if (!messageField.value.trim()) {
