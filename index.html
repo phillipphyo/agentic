@@ -967,6 +967,37 @@
     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     var phoneRegex = /^[0-9+()\-\s]{7,20}$/;
 
+    function announceSuccess() {
+      if (!('speechSynthesis' in window)) return;
+      var utterance = new SpeechSynthesisUtterance(successMsg.textContent);
+      utterance.rate = 1;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function launchBalloons() {
+      var colors = ['#f4a93b', '#0e3155', '#1f5a2e', '#b7434f', '#5c6b78'];
+      var layer = document.createElement('div');
+      layer.className = 'balloon-layer';
+      document.body.appendChild(layer);
+
+      var count = 18;
+      for (var i = 0; i < count; i++) {
+        var balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        balloon.style.left = Math.random() * 96 + 'vw';
+        balloon.style.background = colors[i % colors.length];
+        balloon.style.setProperty('--drift', (Math.random() * 80 - 40) + 'px');
+        balloon.style.animationDuration = (3.2 + Math.random() * 1.8) + 's';
+        balloon.style.animationDelay = (Math.random() * 0.6) + 's';
+        layer.appendChild(balloon);
+      }
+
+      setTimeout(function () {
+        layer.remove();
+      }, 6000);
+    }
+
     function setError(field, errorEl, message) {
       field.classList.toggle('invalid', Boolean(message));
       errorEl.textContent = message || '';
@@ -1054,6 +1085,8 @@
           if (!response.ok) throw new Error('Submission failed');
           successMsg.hidden = false;
           form.reset();
+          announceSuccess();
+          launchBalloons();
         })
         .catch(function () {
           setError(messageField, messageError, 'Something went wrong sending your enquiry. Please try again.');
