@@ -847,17 +847,28 @@
         message: messageField.value.trim()
       };
 
-      console.log(formData);
+      var submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
 
-      // Example: POST the enquiry to a real backend endpoint.
-      // fetch('/api/enquiries', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData)
-      // });
-
-      successMsg.hidden = false;
-      form.reset();
+      fetch('https://formsubmit.co/ajax/kzphyo@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+        .then(function (response) {
+          if (!response.ok) throw new Error('Submission failed');
+          successMsg.hidden = false;
+          form.reset();
+        })
+        .catch(function () {
+          setError(messageField, messageError, 'Something went wrong sending your enquiry. Please try again.');
+        })
+        .finally(function () {
+          submitBtn.disabled = false;
+        });
     });
   })();
 </script>
