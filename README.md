@@ -8,6 +8,7 @@ A single-page static marketing site for "BuildWorks Software," a custom software
 - **Services** — offerings overview
 - **Testimonials** — client feedback
 - **Contact** — client enquiry form (client-side validated, submitted via [formsubmit.co](https://formsubmit.co/))
+- **WhatsApp widget** — floating button (bottom-right) with quick-reply suggestions that open a pre-filled WhatsApp chat
 
 ## SEO
 
