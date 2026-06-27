@@ -581,6 +581,113 @@
       transition: none;
     }
   }
+
+  /* WhatsApp floating widget */
+  .wa-widget {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.75rem;
+    font-family: "IBM Plex Mono", monospace;
+  }
+
+  .wa-panel {
+    width: min(300px, calc(100vw - 2.5rem));
+    background: #fff;
+    border: 1px solid var(--paper-line);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.22);
+    overflow: hidden;
+  }
+
+  .wa-panel[hidden] { display: none; }
+
+  .wa-panel-header {
+    background: var(--blueprint-deep);
+    color: #fff;
+    padding: 0.85rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .wa-panel-header strong {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 0.95rem;
+  }
+
+  .wa-panel-header span {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--linework-dim);
+    margin-top: 0.15rem;
+  }
+
+  .wa-panel-close {
+    background: none;
+    border: none;
+    color: var(--linework);
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: 0.2rem;
+  }
+
+  .wa-suggestions {
+    list-style: none;
+    margin: 0;
+    padding: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .wa-suggestions a {
+    display: block;
+    text-decoration: none;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--paper-line);
+    border-radius: 999px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.82rem;
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+
+  .wa-suggestions a:hover, .wa-suggestions a:focus-visible {
+    background: #eaf3ea;
+    transform: translateX(-2px);
+  }
+
+  .wa-fab {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #25d366;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+    transition: transform 0.15s ease;
+  }
+
+  .wa-fab:hover, .wa-fab:focus-visible { transform: scale(1.06); }
+
+  .wa-fab svg {
+    width: 30px;
+    height: 30px;
+    fill: #fff;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wa-fab, .wa-suggestions a { transition: none; }
+  }
 </style>
 </head>
 <body>
@@ -763,6 +870,28 @@
   </div>
 </footer>
 
+<div class="wa-widget">
+  <div class="wa-panel" id="wa-panel" hidden>
+    <div class="wa-panel-header">
+      <div>
+        <strong>Chat with BuildWorks</strong>
+        <span>Usually replies within a day</span>
+      </div>
+      <button type="button" class="wa-panel-close" id="wa-panel-close" aria-label="Close chat options">&times;</button>
+    </div>
+    <ul class="wa-suggestions">
+      <li><a href="https://wa.me/6591854023?text=Hi%2C%20I%27d%20like%20a%20quote%20for%20a%20custom%20software%20project." target="_blank" rel="noopener">I'd like a quote for a project</a></li>
+      <li><a href="https://wa.me/6591854023?text=Hi%2C%20can%20you%20tell%20me%20more%20about%20your%20web%20development%20services%3F" target="_blank" rel="noopener">Tell me about web development services</a></li>
+      <li><a href="https://wa.me/6591854023?text=Hi%2C%20can%20you%20tell%20me%20more%20about%20your%20mobile%20app%20development%20services%3F" target="_blank" rel="noopener">Tell me about mobile app development</a></li>
+      <li><a href="https://wa.me/6591854023?text=Hi%2C%20how%20long%20does%20a%20typical%20project%20take%3F" target="_blank" rel="noopener">How long does a typical project take?</a></li>
+      <li><a href="https://wa.me/6591854023?text=Hi%2C%20I%20have%20a%20different%20question." target="_blank" rel="noopener">I have a different question</a></li>
+    </ul>
+  </div>
+  <button type="button" class="wa-fab" id="wa-fab" aria-label="Chat with us on WhatsApp" aria-expanded="false" aria-controls="wa-panel">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.02 3C9.4 3 4 8.4 4 15.02c0 2.32.64 4.5 1.76 6.4L4 29l7.78-1.7a11.9 11.9 0 0 0 4.24.76h.01c6.62 0 12.02-5.4 12.02-12.04C28.05 8.4 22.65 3 16.02 3zm0 21.9h-.01a9.9 9.9 0 0 1-5.06-1.4l-.36-.21-4.45.97.96-4.36-.24-.37a9.86 9.86 0 0 1-1.52-5.51c0-5.5 4.49-9.98 10-9.98 2.66 0 5.17 1.04 7.05 2.93a9.9 9.9 0 0 1 2.93 7.05c0 5.51-4.5 9.98-10 9.98zm5.5-7.47c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.37-1.46a8.9 8.9 0 0 1-1.65-2.04c-.17-.3-.02-.47.13-.62.15-.15.34-.4.5-.6.17-.2.22-.35.34-.59.11-.24.06-.45-.04-.6-.1-.15-.6-1.45-.83-1.99-.22-.53-.45-.46-.62-.47-.16-.01-.35-.01-.54-.01-.2 0-.5.07-.78.37-.27.3-1.05 1.03-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.03 3.1 4.94 4.22 2.9 1.13 2.9.75 3.42.7.53-.05 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35z"></path></svg>
+  </button>
+</div>
+
 <script>
   (function () {
     var navToggle = document.getElementById('nav-toggle');
@@ -778,6 +907,22 @@
         navLinks.classList.remove('open');
         navToggle.setAttribute('aria-expanded', 'false');
       });
+    });
+
+    var waFab = document.getElementById('wa-fab');
+    var waPanel = document.getElementById('wa-panel');
+    var waPanelClose = document.getElementById('wa-panel-close');
+
+    waFab.addEventListener('click', function () {
+      var isOpen = waPanel.hidden;
+      waPanel.hidden = !isOpen;
+      waFab.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    waPanelClose.addEventListener('click', function () {
+      waPanel.hidden = true;
+      waFab.setAttribute('aria-expanded', 'false');
+      waFab.focus();
     });
 
     var form = document.getElementById('enquiry-form');
