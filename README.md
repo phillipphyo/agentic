@@ -9,6 +9,10 @@ A single-page static marketing site for "BuildWorks Software," a custom software
 - **Testimonials** — client feedback
 - **Contact** — client enquiry form (client-side validated)
 
+## SEO
+
+[index.html](index.html) includes a canonical tag, Open Graph/Twitter Card meta tags, and `Organization` JSON-LD structured data. [robots.txt](robots.txt) and [sitemap.xml](sitemap.xml) at the repo root support crawler discovery.
+
 ## Local preview
 
 Open [index.html](index.html) directly in a browser. There is nothing to install or build.
